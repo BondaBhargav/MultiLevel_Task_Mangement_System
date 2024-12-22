@@ -62,7 +62,7 @@ export const productsApi = createApi({
         console.log(todoList);
         return {
           url: `/board/${todoList.id}`,
-          method: "PATCH",
+          method: "PUT",
           body: todoList,
         };
       },

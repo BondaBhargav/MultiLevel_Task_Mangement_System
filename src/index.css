@@ -20,3 +20,24 @@ code {
   background-color: transparent;
   border: none ;
 }
+
+li{
+  list-style-type: none;
+}
+
+.boardbg{
+  background: linear-gradient(68.6deg, rgb(252, 165, 241) 1.8%, rgb(181, 255, 255) 100.5%);
+
+
+
+}
+.eachboard{
+  background: linear-gradient(68.6deg, rgb(252, 165, 241) 1.8%, rgb(181, 255, 255) 100.5%);
+
+
+}
+
+.eachboxxx{
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5), -5px -5px 10px rgba(255, 0, 0, 0.5);
+
+}

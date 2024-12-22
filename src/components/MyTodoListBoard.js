@@ -1,39 +1,45 @@
 import React, { useState } from "react";
 
-import {  useAddtodoItemToBoardMutation, useGetproductsDataQuery, useLazyGetproductsDataQuery } from "./Service/productApi";
+import {
+  useAddtodoItemToBoardMutation,
+  useGetproductsDataQuery,
+  useLazyGetproductsDataQuery,
+} from "./Service/productApi";
 import { TodoBoardListItem } from "./TodoBoardListItem";
+import  Sidebar  from "./Sidebar";
 
 export const MyTodoListBoard = () => {
   const { isLoading, data, status } = useGetproductsDataQuery();
-  const fulldata = useGetproductsDataQuery();
-const [addToBoardFn]=useAddtodoItemToBoardMutation()
-const [renderedTheBoard]=useLazyGetproductsDataQuery()
+
+  const [addToBoardFn] = useAddtodoItemToBoardMutation();
+  const [renderedTheBoard] = useLazyGetproductsDataQuery();
   const [inputValue, setInputvalue] = useState("");
 
-  const addTodoListToBoard =async () => {
-    if (inputValue !== "") {
-let  newItem={
-  "title":inputValue,
-  "todos":[],
-   
+  const addTodoListToBoard = async (val) => {
+    console.log(val)
+    if (val !== "") {
+      let newItem = {
+        title: val,
+        todos: [],
+      };
+    
 
-}
-console.log(newItem)
-
-await addToBoardFn(newItem)
-renderedTheBoard()
-setInputvalue("")
+      await addToBoardFn(newItem);
+      setInputvalue("");
+      renderedTheBoard();
+     
     }
   };
   return (
-    <>
-      <center>
-        <h1 className="text-align-center">MyTodoListBoard</h1>
+    <div className="d-flex eachboard">
+      <Sidebar/>
+      <div> <center>
+        <h1 className="text-align-center text-warning">MAIN BOARD</h1>
       </center>
       <center>
         <button
           type="button"
-          className="btn btn-success"
+          className="btn btn-success border-primary m-2"
           data-bs-toggle="modal"
           data-bs-target="#exampleModal"
         >
@@ -82,7 +88,7 @@ setInputvalue("")
               <button
                 type="button"
                 className="btn btn-primary"
-                onClick={() => addTodoListToBoard()}
+                onClick={() => addTodoListToBoard(inputValue)}
               >
                 Add Todo
               </button>
@@ -91,7 +97,7 @@ setInputvalue("")
         </div>
       </div>
 
-      <ul className="d-flex justify-content-evenly flex-wrap">
+      <ul className="d-flex justify-content-evenly boardbg flex-wrap vh-100%">
         {isLoading && <h1>Loading......</h1>}
         {!isLoading &&
           status === "fulfilled" &&
@@ -102,6 +108,10 @@ setInputvalue("")
             ></TodoBoardListItem>
           ))}
       </ul>
-    </>
+
+
+      </div>
+     
+    </div>
   );
 };

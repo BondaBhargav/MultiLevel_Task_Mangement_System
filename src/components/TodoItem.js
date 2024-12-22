@@ -6,6 +6,7 @@ import {
   useLazyGetListItemDataQuery,
 } from "./Service/productApi";
 import { FliterTodo } from "./FliterTodo";
+import Sidebar  from "./Sidebar";
 
 export const TodoItem = () => {
   const { id } = useParams();
@@ -36,45 +37,42 @@ export const TodoItem = () => {
   return (
     <>
       {" "}
-      <div className="d-flex justify-content-center ">
-        <h1>hello</h1>
-      </div>
-      <div className="form-control d-flex w-50 gap-3">
-        <div className="w-100">
-          <input
-            type="text"
-            placeholder="Add Action Here"
-            className="form-control w-70 m-1 "
-            onChange={(e) => {
-              setNewinputvalue(e.target.value);
-            }}
-            id="addtodoinput"
-            value={inputval}
-          />
+      <>
+        <div className="d-flex ">
+          <Sidebar/>
+<div className="d-flex flex-column">
+  <center><h1>{data&& data.title}</h1></center>
+<input
+              type="text"
+              placeholder="Add Action Here"
+              className="form-control  m-1 border-primary "
+              onChange={(e) => {
+                setNewinputvalue(e.target.value);
+              }}
+              id="addtodoinput"
+              value={inputval}
+            />
 
-          <select
-            onChange={(e) => {
-              setNewStatus(e.target.value);
-            }}
-            defaultValue
-            className="form-control w-70 m-1"
-          >
-            <option value="To Do">To Do</option>
-            <option value="Doing">Doing </option>
-            <option value="Done">Done</option>
-          </select>
-        </div>
-
-        <button
-          className="btn btn-primary"
-          onClick={() => {
-            addtodo();
-          }}
-        >
-          Add
-        </button>
-      </div>
-      <div className="container">
+            <select
+              onChange={(e) => {
+                setNewStatus(e.target.value);
+              }}
+              defaultValue
+              className="form-control  m-1 border-primary"
+            >
+              <option value="To Do">To Do</option>
+              <option value="Doing">Doing </option>
+              <option value="Done">Done</option>
+            </select>
+            <button
+              className="btn btn-primary"
+              onClick={() => {
+                addtodo();
+              }}
+            >
+              Add
+            </button>
+            <div className="container">
         {isLoading && <h1>Loading......</h1>}
         {!isLoading && data && (
           <div className="d-flex flex-row justify-content-evenly row w-100 gap-1">
@@ -84,6 +82,13 @@ export const TodoItem = () => {
           </div>
         )}
       </div>
+
+
+</div>
+            
+          </div>
+      </>
+    
     </>
   );
 };

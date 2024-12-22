@@ -7,7 +7,7 @@ const App = () => {
 
 return(
   <>
-  <h1 className='d-flex justify-content-center border'>Welcome To MY MutliLevel Task Management</h1>
+  <h1 className='d-flex justify-content-center  eachboxxx '>Welcome To MY MutliLevel Task Management</h1>
   <Outlet/>
   </>
 
