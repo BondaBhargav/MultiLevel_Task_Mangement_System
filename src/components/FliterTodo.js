@@ -25,12 +25,12 @@ export const FliterTodo = ({ tItem, type }) => {
     setTodos(newTodo); // Update state after removal
   };
 
-  let bg = "bg-success";
+  let bg = "bg-danger";
   const bgcolorforList = () => {
     if (type === "To Do") {
       bg = "bg-info";
     } else if (type === "Done") {
-      bg = "bg-primary";
+      bg = "bg-success";
     }
   };
 

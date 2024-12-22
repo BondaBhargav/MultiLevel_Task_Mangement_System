@@ -18,55 +18,20 @@
   },
   "board": [
     {
-      "title": "llll",
+      "title": "React",
       "todos": [
         {
-          "id": "breakfast1",
-          "status": "Done",
-          "task": "breakfast"
+          "id": "learncomponents1",
+          "status": "Doing",
+          "task": "learn components"
         },
         {
-          "id": "lunch1",
+          "id": "learnroutin1",
           "status": "To Do",
-          "task": "lunch"
+          "task": "learn routin"
         }
       ],
       "id": 1
-    },
-    {
-      "title": "react",
-      "todos": [],
-      "id": 3
-    },
-    {
-      "title": "jjjj",
-      "todos": [],
-      "id": 4
-    },
-    {
-      "title": "ddd",
-      "todos": [],
-      "id": 5
-    },
-    {
-      "title": "viratttt",
-      "todos": [],
-      "id": 6
-    },
-    {
-      "title": "ttttttt",
-      "todos": [],
-      "id": 7
-    },
-    {
-      "title": "rrrrrr",
-      "todos": [],
-      "id": 8
-    },
-    {
-      "title": "fffffffffffffffff",
-      "todos": [],
-      "id": 9
     }
   ]
 }

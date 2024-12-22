@@ -1,38 +1,44 @@
-import React, { useState,useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useMemo } from "react";
+import { Link } from "react-router-dom";
 import {
-    useAddtodoItemToBoardMutation,
-    useGetproductsDataQuery,
-    useLazyGetproductsDataQuery,
-  } from "./Service/productApi";
+  useAddtodoItemToBoardMutation,
+  useGetproductsDataQuery,
+  useLazyGetproductsDataQuery,
+} from "./Service/productApi";
 
-  import { SiGoogletasks } from "react-icons/si";
+import { SiGoogletasks } from "react-icons/si";
 
 const Sidebar = React.memo(() => {
+  const { data } = useGetproductsDataQuery();
+
+  const [addToBoardFn] = useAddtodoItemToBoardMutation();
+  const [renderedTheBoard] = useLazyGetproductsDataQuery();
+  const addTodoListToBoard = async (val) => {
+    console.log(val);
+    if (val !== "") {
+      let newItem = {
+        title: val,
+        todos: [],
+      };
+
+      await addToBoardFn(newItem);
+      setInputvalue("");
+      renderedTheBoard();
+    }
+  };
+
+  const [inputValue, setInputvalue] = useState("");
+  const memoizedAddTodoListToBoard = useMemo(
+    () => addTodoListToBoard,
+    [addTodoListToBoard]
+  );
+
+  const toogleSidebarItem=()=>{
 
 
-      const {data } = useGetproductsDataQuery();
-    
-      const [addToBoardFn] = useAddtodoItemToBoardMutation();
-      const [renderedTheBoard] = useLazyGetproductsDataQuery();
-    const addTodoListToBoard = async (val) => {
-        console.log(val)
-        if (val !== "") {
-          let newItem = {
-            title: val,
-            todos: [],
-          };
-        
-    
-          await addToBoardFn(newItem);
-          setInputvalue("");
-          renderedTheBoard();
-         
-        }}
 
 
-  const [inputValue, setInputvalue] = useState('');
-  const memoizedAddTodoListToBoard = useMemo(() => addTodoListToBoard, [addTodoListToBoard]);
+  }
   return (
     <div className="d-flex flex-column col-3 col-lg-2  bg-dark  me-3 sidebar">
       <button
@@ -43,7 +49,24 @@ const Sidebar = React.memo(() => {
       >
         <span className="m-2">+</span>ADD NEW
       </button>
-      <ul>{data&&data.map(each=>(<li><Link className='d-flex justify-content-between btn btn-dark border flex-wrap w-75 m-2' to={`/todolist/${each.id}`}>{each.title.toUpperCase()} <SiGoogletasks/> </Link></li>))}</ul>
+      <ul>
+        {data &&
+          data.map((each) => (
+            <li key={each.id} className="button-container">
+              <Link
+                className="d-flex justify-content-between btn btn-dark border flex-wrap w-75 m-2"
+                to={`/todolist/${each.id}`}
+                on={()=>{console.log("touched")}}
+              >
+                {each.title.toUpperCase()} <SiGoogletasks />{" "}
+              </Link>
+              <ul className="hidden-content">
+ 
+                {each.todos.length>=1?each.todos.map(e=>(<li>{e.task}: {e.status}</li>)):"none"}
+              </ul>
+            </li>
+          ))}
+      </ul>
       <div
         className="modal fade"
         id="exampleModal"
@@ -86,7 +109,9 @@ const Sidebar = React.memo(() => {
                 type="button"
                 className="btn btn-primary"
                 onClick={() => {
-                    memoizedAddTodoListToBoard(inputValue).then(setInputvalue(''))
+                  memoizedAddTodoListToBoard(inputValue).then(
+                    setInputvalue("")
+                  );
                 }}
               >
                 Add Todo

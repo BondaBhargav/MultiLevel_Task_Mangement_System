@@ -34,7 +34,7 @@ export const MyTodoListBoard = () => {
     <div className="d-flex eachboard">
       <Sidebar/>
       <div> <center>
-        <h1 className="text-align-center text-warning">MAIN BOARD</h1>
+        <h1 className=" text-warning">MAIN BOARD</h1>
       </center>
       <center>
         <button

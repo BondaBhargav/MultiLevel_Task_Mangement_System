@@ -6,7 +6,7 @@ import {
   useLazyGetListItemDataQuery,
 } from "./Service/productApi";
 import { FliterTodo } from "./FliterTodo";
-import Sidebar  from "./Sidebar";
+import Sidebar from "./Sidebar";
 
 export const TodoItem = () => {
   const { id } = useParams();
@@ -39,10 +39,15 @@ export const TodoItem = () => {
       {" "}
       <>
         <div className="d-flex ">
-          <Sidebar/>
-<div className="d-flex flex-column">
-  <center><h1>{data&& data.title}</h1></center>
-<input
+          <Sidebar />
+          <div className="d-flex flex-column w-100 align-items-center boarditempage">
+            <center>
+              <h1>{data && data.title}</h1>
+            </center>
+            <div className="d-flex flex-column w-50 mb-3  ">
+
+         
+            <input
               type="text"
               placeholder="Add Action Here"
               className="form-control  m-1 border-primary "
@@ -72,23 +77,21 @@ export const TodoItem = () => {
             >
               Add
             </button>
+            </div>
+            <h1>Work Status</h1>
             <div className="container">
-        {isLoading && <h1>Loading......</h1>}
-        {!isLoading && data && (
-          <div className="d-flex flex-row justify-content-evenly row w-100 gap-1">
-            <FliterTodo tItem={data} type="To Do" />
-            <FliterTodo tItem={data} type="Doing" />
-            <FliterTodo tItem={data} type="Done" />
+              {isLoading && <h1>Loading......</h1>}
+              {!isLoading && data && (
+                <div className="d-flex flex-row justify-content-evenly row w-100 gap-1">
+                  <FliterTodo tItem={data} type="To Do" />
+                  <FliterTodo tItem={data} type="Doing" />
+                  <FliterTodo tItem={data} type="Done" />
+                </div>
+              )}
+            </div>
           </div>
-        )}
-      </div>
-
-
-</div>
-            
-          </div>
+        </div>
       </>
-    
     </>
   );
 };
