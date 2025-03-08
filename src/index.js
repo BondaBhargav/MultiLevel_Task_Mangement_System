@@ -11,6 +11,9 @@ import { MyBoard } from "./components/MyBoard";
 import { MyTodoListBoard } from "./components/MyTodoListBoard";
 import { TodoItem } from "./components/TodoItem";
 import { PraticeComponent } from "./components/PraticeComponent";
+import Login from "./components/login";
+import Signup from "./components/signIn";
+import { ToastContainer } from "react-toastify";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 const router = createBrowserRouter([
@@ -30,16 +33,27 @@ const router = createBrowserRouter([
           },
           {
             path:"pratice",
-element:<PraticeComponent/>
+            element:<PraticeComponent/>
           }
         ],
       },
     ],
   },
+  {
+    path:'/login',
+    element:<Login/>
+    
+  },
+   {
+    path:'/signup',
+    element:<Signup/>
+    
+  }
 ]);
 
 root.render(
   <Provider store={store}>
+     <ToastContainer/>
     <RouterProvider router={router}></RouterProvider>
   </Provider>
 );

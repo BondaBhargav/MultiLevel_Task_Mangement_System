@@ -13,22 +13,20 @@ export const TodoItem = () => {
 
   const { isLoading, data } = useGetListItemDataQuery(id);
 
+
   const [inputval, setNewinputvalue] = useState("");
   const [todoStaus, setNewStatus] = useState("To Do");
   const [addTaskToThisTodoListFn] = useAddNewtodoItemToTodoMutation();
   const [renderAfterAddFn] = useLazyGetListItemDataQuery(id);
   const addtodo = async () => {
     if (inputval !== "" && todoStaus !== "") {
-      const newtodo = [
-        ...data.todos,
-        {
+      const newtodo = {
           task: inputval,
           status: todoStaus,
           id: `${inputval.split(" ").join("")}${id}`,
-        },
-      ];
-      console.log({ ...data, todos: newtodo });
-      await addTaskToThisTodoListFn({ ...data, todos: newtodo });
+        }
+   
+      await addTaskToThisTodoListFn( {newtodo,id} );
       renderAfterAddFn(id);
     }
     setNewinputvalue("");
@@ -42,7 +40,7 @@ export const TodoItem = () => {
           <Sidebar />
           <div className="d-flex flex-column w-100 align-items-center boarditempage">
             <center>
-              <h1>{data && data.title}</h1>
+              <h1>{data && data.data.title}</h1>
             </center>
             <div className="d-flex flex-column w-50 mb-3  ">
 
@@ -72,7 +70,7 @@ export const TodoItem = () => {
             <button
               className="btn btn-primary"
               onClick={() => {
-                addtodo();
+                addtodo()
               }}
             >
               Add
@@ -81,11 +79,12 @@ export const TodoItem = () => {
             <h1>Work Status</h1>
             <div className="container">
               {isLoading && <h1>Loading......</h1>}
-              {!isLoading && data && (
+              {!isLoading && data.data.todos && (
                 <div className="d-flex flex-row justify-content-evenly row w-100 gap-1">
-                  <FliterTodo tItem={data} type="To Do" />
-                  <FliterTodo tItem={data} type="Doing" />
-                  <FliterTodo tItem={data} type="Done" />
+              
+                  <FliterTodo tItem={data.data} type="To Do" />
+                  <FliterTodo tItem={data.data} type="Doing" />
+                  <FliterTodo tItem={data.data} type="Done" />
                 </div>
               )}
             </div>

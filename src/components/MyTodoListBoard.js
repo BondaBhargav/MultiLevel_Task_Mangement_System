@@ -9,20 +9,34 @@ import { TodoBoardListItem } from "./TodoBoardListItem";
 import  Sidebar  from "./Sidebar";
 
 export const MyTodoListBoard = () => {
+
+
+
+
+
+
+
   const { isLoading, data, status } = useGetproductsDataQuery();
+
 
   const [addToBoardFn] = useAddtodoItemToBoardMutation();
   const [renderedTheBoard] = useLazyGetproductsDataQuery();
   const [inputValue, setInputvalue] = useState("");
 
   const addTodoListToBoard = async (val) => {
-    console.log(val)
+
     if (val !== "") {
+      let boardId=data?.data[0]
+      console.log(boardId)
       let newItem = {
         title: val,
-        todos: [],
+        _id:boardId
+
+        
+    
       };
     
+      
 
       await addToBoardFn(newItem);
       setInputvalue("");
@@ -32,7 +46,7 @@ export const MyTodoListBoard = () => {
   };
   return (
     <div className="d-flex eachboard">
-      <Sidebar/>
+      <Sidebar  />
       <div> <center>
         <h1 className=" text-warning">MAIN BOARD</h1>
       </center>
@@ -96,14 +110,15 @@ export const MyTodoListBoard = () => {
           </div>
         </div>
       </div>
-
+{console.log(data?.data.boards)}
       <ul className="d-flex justify-content-evenly boardbg flex-wrap vh-100%">
         {isLoading && <h1>Loading......</h1>}
         {!isLoading &&
-          status === "fulfilled" &&
-          data.map((each) => (
+          status === "fulfilled" && 
+          data?.data?.boards.map((each) => (
+            
             <TodoBoardListItem
-              key={each.id}
+              key={each._id}
               todoitem={each}
             ></TodoBoardListItem>
           ))}

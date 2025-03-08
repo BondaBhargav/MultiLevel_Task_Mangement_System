@@ -4,70 +4,131 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 // Define a service using a base URL and expected endpoints
 export const productsApi = createApi({
   reducerPath: "productsApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:4000" }),
+  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8085/api",
+
+   }),
   endpoints: (builder) => ({
     getproductsData: builder.query({
-      query: () => `/board`,
+      query: () => {
+        
+        return{
+        method:"GET",
+        url:`/userboards`,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+      },
     }),
     getListItemData: builder.query({
-      query: (id) => `/board/${id}`,
+      query: (id) => {
+
+        return{
+          method:"GET",
+          url:`/gettodos/${id}`,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          }
+
+        }
+      }
     }),
 
     delteTodoOnBoard: builder.mutation({
       query: (id) => {
-        console.log("sucessfully Deleted from Board")
+        console.log("sucessfully Deleted from Board"); //it is for delete new board
         return {
-          url: `/board/${id}`,
+          url: `/deletetask/${id}`,
           method: "DELETE",
-         
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          }
+
         };
       },
     }),
+
     addNewtodoItemToTodo: builder.mutation({
       // note: an optional `queryFn` may be used in place of `query`
-      query: (todoList) => {
-        console.log("sucessfully added");
+      query: ({newtodo,id}) => {
+        console.log("add new board",newtodo); //add new todo to board
+    
         return {
-          url: `/board/${todoList.id}`,
-          method: "PUT",
-          body: todoList,
+          url: `/taskadd/${id}`,
+          method: "POST",
+          body: newtodo,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          }
+
+
+
         };
       },
     }),
     removetodoItemFromTodo: builder.mutation({
       // note: an optional `queryFn` may be used in place of `query`
-      query: (todoList) => {
-        console.log(todoList.id, todoList.todos, "deleted from Board");
+      query: ({taskid,id}) => {
+     
         return {
-          url: `/board/${todoList.id}`,
-          method: "PUT",
-          body: todoList,
+          url: `/taskdelete/${id}/${taskid}`,
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          }
         };
       },
     }),
     addtodoItemToBoard: builder.mutation({
-      // note: an optional `queryFn` may be used in place of `query`
+      // note: an optional `queryFn` may be used in place of `query`  it is for add new board
       query: (todoObj) => {
-        console.log(todoObj, "Added to board");
+      
         return {
-          url: "/board",
+          url: `/addnewboard`,
           method: "POST",
-          body:todoObj,
+          body: todoObj,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          },
         };
       },
     }),
     changeTodoStatusfromEachTodo: builder.mutation({
       // note: an optional `queryFn` may be used in place of `query`
-      query: (todoList) => {
-        console.log(todoList);
+      query: (data) => {
+     console.log(data)
         return {
-          url: `/board/${todoList.id}`,
-          method: "PUT",
-          body: todoList,
+          url: `/statuschange/${data._id}`,
+          method: "PATCH",
+          body: data ,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          }
         };
       },
     }),
-
+    signupApi: builder.mutation({
+      query: (data) => {
+        console.log("sucessfully Deleted from Board");
+        return {
+          url: `/register`,
+          method: "POST",
+          body: data,
+        };
+      },
+    }),
+    loginApi: builder.mutation({
+      query: (data) => {
+        return { url: "/login", method: "POST", body: data };
+      },
+    }),
   }),
 });
 
@@ -78,7 +139,9 @@ export const {
   useAddNewtodoItemToTodoMutation,
   useRemovetodoItemFromTodoMutation,
   useLazyGetListItemDataQuery,
-useDelteTodoOnBoardMutation,
-useAddtodoItemToBoardMutation,
+  useDelteTodoOnBoardMutation,
+  useAddtodoItemToBoardMutation,
   useChangeTodoStatusfromEachTodoMutation,
+useLoginApiMutation,
+  useSignupApiMutation,
 } = productsApi;

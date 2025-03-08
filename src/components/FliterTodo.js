@@ -7,6 +7,7 @@ import { useChangeTodoStatusfromEachTodoMutation } from "./Service/productApi";
 export const FliterTodo = ({ tItem, type }) => {
   const { id } = useParams();
 
+
   const [changeTaskToApi] = useChangeTodoStatusfromEachTodoMutation();
   const [reCallAfterRemoveFn] = useLazyGetListItemDataQuery();
   const [removeTheItem] = useRemovetodoItemFromTodoMutation();
@@ -19,10 +20,10 @@ export const FliterTodo = ({ tItem, type }) => {
   }, [tItem.todos]);
 
   const removetaskFromList = async (taskid) => {
-    const newTodo = todos.filter((each) => each.id !== taskid);
-    await removeTheItem({ ...tItem, todos: newTodo });
+
+    await removeTheItem({ taskid,id });
     reCallAfterRemoveFn(id);
-    setTodos(newTodo); // Update state after removal
+   
   };
 
   let bg = "bg-danger";
@@ -36,18 +37,18 @@ export const FliterTodo = ({ tItem, type }) => {
 
   bgcolorforList();
 
-  const handleOnDrag = (e, taskid, task) => {
-    e.dataTransfer.setData("abc", JSON.stringify({ LIid: e.target.id, taskid, task }));
+  const handleOnDrag = (e, taskid, task,_id) => {
+    e.dataTransfer.setData("abc", JSON.stringify({ LIid: e.target.id, taskid, task,_id }));
   };
 
   const handleDragEnd = async (e) => {
-    let { LIid, taskid, task } = JSON.parse(e.dataTransfer.getData("abc"));
-
+    let { LIid, taskid, task,_id } = JSON.parse(e.dataTransfer.getData("abc"));
+console.log(_id,taskid)
     // Handle the drag-and-drop operation by updating the state
     const updatedTodos = todos.filter((todo) => todo.id !== taskid);
-    updatedTodos.push({ id: taskid, status: type, task });
+    updatedTodos.push({ id: taskid, status: type, task,_id});
 
-    setTodos(updatedTodos); // Update state with the new order
+    setTodos(updatedTodos);
 
     await changeTaskToApi({ ...tItem, todos: updatedTodos }); // Persist the changes
 
@@ -55,14 +56,15 @@ export const FliterTodo = ({ tItem, type }) => {
   };
 
   return (
-    <div className="col-md-8 col-lg-3 d-flex justify-content-center border">
-      <div className="card m-3" style={{ width: "18rem" }}>
-        <h1 className="bg-secondary">{type.toUpperCase()}</h1>
+    <div className="col-md-12 col-lg-3 d-flex justify-content-center border">
+      <div className="card m-3" style={{ width: '100%' }}>
+        <p className="bg-secondary bold">{type.toUpperCase()}</p>
         <ul
           id="mainulel"
           onDragOver={(event) => event.preventDefault()}
           onDrop={(e) => handleDragEnd(e)}
-          className="list-group list-group-flush w-100 h-100"
+          className="list-group list-group-flush w-100 eachboxxhe"
+          
         >
           {todos
             .filter((each) => each.status === type)
@@ -70,7 +72,7 @@ export const FliterTodo = ({ tItem, type }) => {
               <li
                 draggable="true"
                 id={`${i}${each.id}`}
-                onDragStart={(e) => handleOnDrag(e, each.id, each.task)}
+                onDragStart={(e) => handleOnDrag(e, each.id, each.task,each._id)}
                 key={each.id}
                 className={`list-group-item rounded m-1 ${bg}`}
               >

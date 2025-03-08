@@ -12,7 +12,7 @@ export const TodoBoardListItem = ({ todoitem }) => {
   const [renderTheComponent] = useLazyGetproductsDataQuery();
 
   const deletetodoItem = async (id) => {
-    console.log(id);
+  
     await deleteTodoItemFromBoardFn(id);
 
     renderTheComponent();
@@ -31,10 +31,10 @@ export const TodoBoardListItem = ({ todoitem }) => {
               }}
             />
             <h5 className="card-title">{todoitem.title.toUpperCase()}</h5>
-            <AiFillDelete onClick={() => deletetodoItem(todoitem.id)} />
+            <AiFillDelete onClick={() => deletetodoItem(todoitem._id)} />
           </div>
           <hr className="bordered" />
-          <div style={{ overflow: "hidden", height: "6em" }}>
+          <div style={{ overflow: "auto", height: "6em" }}>
             {todoitem.todos.map((i) => (
               <p key={i.id} className="card-text">
                 {i.task}
@@ -42,7 +42,7 @@ export const TodoBoardListItem = ({ todoitem }) => {
             ))}
           </div>
           <div className="d-flex justify-content-between">
-            <Link to={`todolist/${todoitem.id}`} className="btn btn-dark border">
+            <Link to={`todolist/${todoitem._id}`} className="btn btn-dark border">
               Go to this
             </Link>
             <h2>Total {todoitem.todos.length}</h2>

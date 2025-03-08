@@ -1,13 +1,12 @@
 import React from 'react'
-import { useGetproductsDataQuery, useLazyGetproductsDataQuery } from './components/Service/productApi'
 import { Outlet } from 'react-router-dom'
-
+import { ToastContainer, toast } from 'react-toastify';
 const App = () => {
 
 
 return(
   <>
-  <h1 className='d-flex justify-content-center head '>Welcome To MY MutliLevel Task Management</h1>
+  <ToastContainer/>
   <Outlet/>
   </>
 

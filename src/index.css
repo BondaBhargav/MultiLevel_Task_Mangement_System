@@ -19,6 +19,7 @@ code {
   outline: none;
   background-color: transparent;
   border: none ;
+  width: auto;
 }
 
 li{
@@ -67,15 +68,31 @@ li{
   display: block;
 }
 .sidebar{
-  min-height: 100vh;
+  min-height: 90vh;
   height: 100%;
 }
 
-.boarditempage{
+.boarditempage {
   background: linear-gradient(to right, rgb(173, 83, 137), rgb(60, 16, 83));
-
-
+  animation: bgchange 5s linear infinite; /* Slow and smooth transition */
 }
+
+@keyframes bgchange {
+  0% {
+    background: linear-gradient(to right, rgb(173, 83, 137), rgb(60, 16, 83));
+  }
+  50% {
+    background: linear-gradient(109.5deg, rgb(173, 11, 136) 9.4%, rgb(86, 255, 248) 78.4%);
+  }
+  100% {
+    background: linear-gradient(68.6deg, rgb(152, 165, 241) 1.8%, rgb(181, 255, 255) 100.5%);
+  }
+}
+
+
+  
+
+
 .head{
   background: linear-gradient(109.5deg, rgb(13, 11, 136) 9.4%, rgb(86, 255, 248) 78.4%);
 
@@ -86,4 +103,89 @@ border-radius: 10px;
   background: linear-gradient(68.6deg, rgb(252, 165, 241) 1.8%, rgb(181, 255, 255) 100.5%);
 
 
+}
+
+
+
+
+
+
+.auth-container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  border-radius: 5px;
+}
+
+.auth-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.error {
+  color: red;
+  margin-bottom: 10px;
+}
+
+p {
+  text-align: center;
+  margin-top: 15px;
+}
+
+a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+
+
+
+
+.btnnav{
+  width: 100px;
+}
+
+.myboard{
+  position: relative;
+  top: 12vh;
+
+  min-height: min-content;
+}
+.eachboxxhe{
+  min-height: 25vh;
 }

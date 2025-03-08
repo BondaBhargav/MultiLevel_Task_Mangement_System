@@ -9,16 +9,23 @@ import {
 import { SiGoogletasks } from "react-icons/si";
 
 const Sidebar = React.memo(() => {
-  const { data } = useGetproductsDataQuery();
+  const { data,isLoading } = useGetproductsDataQuery();
 
   const [addToBoardFn] = useAddtodoItemToBoardMutation();
   const [renderedTheBoard] = useLazyGetproductsDataQuery();
   const addTodoListToBoard = async (val) => {
-    console.log(val);
+   
+    let boardId=data
+    console.log(boardId)
     if (val !== "") {
+  
+   
       let newItem = {
         title: val,
-        todos: [],
+        
+
+        
+    
       };
 
       await addToBoardFn(newItem);
@@ -33,14 +40,20 @@ const Sidebar = React.memo(() => {
     [addTodoListToBoard]
   );
 
-  const toogleSidebarItem=()=>{
 
-
-
-
-  }
+  const bgcolorforList = (type) => {
+    
+    if (type === "To Do") {
+      return"bg-info";
+    } else if (type === "Done") {
+      return"bg-success";
+    }
+    else{
+       return"bg-danger";
+    }
+  };
   return (
-    <div className="d-flex flex-column col-3 col-lg-2  bg-dark  me-3 sidebar">
+    <div className="flex-column col-3 col-lg-2  bg-dark  me-3 sidebar d-none d-lg-flex position-sticky border bodered">
       <button
         type="button"
         className="btn boardbg eachboxxx"
@@ -50,19 +63,28 @@ const Sidebar = React.memo(() => {
         <span className="m-2">+</span>ADD NEW
       </button>
       <ul>
-        {data &&
-          data.map((each) => (
-            <li key={each.id} className="button-container">
+        {  data?.data?.boards &&
+            data?.data?.boards.map((each) => (
+            <li key={each._id} className="button-container">
               <Link
                 className="d-flex justify-content-between btn btn-dark border flex-wrap w-75 m-2"
-                to={`/todolist/${each.id}`}
-                on={()=>{console.log("touched")}}
+                to={`/todolist/${each._id}`}
+            
               >
                 {each.title.toUpperCase()} <SiGoogletasks />{" "}
               </Link>
               <ul className="hidden-content">
- 
-                {each.todos.length>=1?each.todos.map(e=>(<li>{e.task}: {e.status}</li>)):"none"}
+                {each.todos.length >= 1
+                  ? each.todos.map((e) => (
+                      <li key={e.id}>
+                        {e.task}:
+                        <span className={`${bgcolorforList(e.status)}`}>
+                          {" "}
+                          {e.status}
+                        </span>{" "}
+                      </li>
+                    ))
+                  : "none"}
               </ul>
             </li>
           ))}
