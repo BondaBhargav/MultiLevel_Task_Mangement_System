@@ -189,3 +189,15 @@ a:hover {
 .eachboxxhe{
   min-height: 25vh;
 }
+
+
+
+.modal-overlay{
+  position: absolute;
+  height: 100%;
+  width: 50%;
+  top: 100%;
+  z-index: 50000;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Moves the element back by half its size */
+}

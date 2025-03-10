@@ -1,27 +1,21 @@
 import React, { useState } from "react";
-
 import {
   useAddtodoItemToBoardMutation,
   useGetproductsDataQuery,
   useLazyGetproductsDataQuery,
 } from "./Service/productApi";
 import { TodoBoardListItem } from "./TodoBoardListItem";
-import  Sidebar  from "./Sidebar";
+import Sidebar from "./Sidebar";
+import PortalModal from "./PortalModal"; // Import PortalModal
 
 export const MyTodoListBoard = () => {
-
-
-
-
-
-
-
-  const { isLoading, data, status } = useGetproductsDataQuery();
-
-
+  const { isLoading, data } = useGetproductsDataQuery();
   const [addToBoardFn] = useAddtodoItemToBoardMutation();
   const [renderedTheBoard] = useLazyGetproductsDataQuery();
-  const [inputValue, setInputvalue] = useState("");
+  const [inputValue, setInputValue] = useState("");
+  const [isModalOpen, setModalOpen] = useState(false); // Manage modal state
+  let noBoards=data?.data
+  console.log(noBoards)
 
   const addTodoListToBoard = async (val) => {
 
@@ -39,94 +33,56 @@ export const MyTodoListBoard = () => {
       
 
       await addToBoardFn(newItem);
-      setInputvalue("");
+      setInputValue("");
       renderedTheBoard();
      
     }
   };
+
   return (
     <div className="d-flex eachboard">
-      <Sidebar  />
-      <div> <center>
-        <h1 className=" text-warning">MAIN BOARD</h1>
-      </center>
-      <center>
-        <button
-          type="button"
-          className="btn btn-success border-primary m-2"
-          data-bs-toggle="modal"
-          data-bs-target="#exampleModal"
-        >
-          <span className="m-2">+</span>ADD NEW
-        </button>
-      </center>
+      <Sidebar />
+      <div>
+        <center>
+          <h1 className="text-warning">MAIN BOARD</h1>
+        </center>
+        <center>
+          <button
+            type="button"
+            className="btn btn-success border-primary m-2"
+            onClick={() => setModalOpen(true)} // Open modal
+          >
+            <span className="m-2">+</span>ADD NEW
+          </button>
+        </center>
 
-      <div
-        className="modal fade"
-        id="exampleModal"
-        tabIndex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h1 className="modal-title fs-5" id="exampleModalLabel">
-                Modal title
-              </h1>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div className="modal-body">
-              <input
-                className="form-control"
-                placeholder="Enter Todo Title Here"
-                onChange={(e) => {
-                  setInputvalue(e.target.value);
-                }}
-                value={inputValue}
-              />
-            </div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={() => addTodoListToBoard(inputValue)}
-              >
-                Add Todo
-              </button>
-            </div>
-          </div>
-        </div>
+        {/* Portal Modal */}
+        <PortalModal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
+          <input
+            className="form-control"
+            placeholder="Enter Todo Title Here"
+            onChange={(e) => setInputValue(e.target.value)}
+            value={inputValue}
+          />
+          <button
+            type="button"
+            className="btn btn-primary mt-3"
+            onClick={() => addTodoListToBoard(inputValue)}
+          >
+            Add Todo
+          </button>
+        </PortalModal>
+
+        <ul className="d-flex justify-content-evenly boardbg flex-wrap" style={{ height: "100vh" }}>
+          {isLoading ? (
+            <h1>Loading......</h1>
+          ) : (
+            data?.data?.boards?.map((each) => (
+              <TodoBoardListItem key={each._id} todoitem={each} />
+            ))
+          )}
+        </ul>
       </div>
-{console.log(data?.data.boards)}
-      <ul className="d-flex justify-content-evenly boardbg flex-wrap vh-100%">
-        {isLoading && <h1>Loading......</h1>}
-        {!isLoading &&
-          status === "fulfilled" && 
-          data?.data?.boards.map((each) => (
-            
-            <TodoBoardListItem
-              key={each._id}
-              todoitem={each}
-            ></TodoBoardListItem>
-          ))}
-      </ul>
-
-
-      </div>
-     
     </div>
   );
 };

@@ -6,6 +6,7 @@ export const productsApi = createApi({
   reducerPath: "productsApi",
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8085/api",
 
+
    }),
   endpoints: (builder) => ({
     getproductsData: builder.query({
@@ -87,7 +88,7 @@ export const productsApi = createApi({
     addtodoItemToBoard: builder.mutation({
       // note: an optional `queryFn` may be used in place of `query`  it is for add new board
       query: (todoObj) => {
-      
+      console.log(todoObj)
         return {
           url: `/addnewboard`,
           method: "POST",

@@ -54,14 +54,7 @@ const Sidebar = React.memo(() => {
   };
   return (
     <div className="flex-column col-3 col-lg-2  bg-dark  me-3 sidebar d-none d-lg-flex position-sticky border bodered">
-      <button
-        type="button"
-        className="btn boardbg eachboxxx"
-        data-bs-toggle="modal"
-        data-bs-target="#exampleModal"
-      >
-        <span className="m-2">+</span>ADD NEW
-      </button>
+   
       <ul>
         {  data?.data?.boards &&
             data?.data?.boards.map((each) => (
@@ -89,59 +82,7 @@ const Sidebar = React.memo(() => {
             </li>
           ))}
       </ul>
-      <div
-        className="modal fade"
-        id="exampleModal"
-        tabIndex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h1 className="modal-title fs-5" id="exampleModalLabel">
-                Modal title
-              </h1>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div className="modal-body">
-              <input
-                className="form-control"
-                placeholder="Enter Todo Title Here"
-                onChange={(e) => {
-                  setInputvalue(e.target.value);
-                }}
-                value={inputValue}
-              />
-            </div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={() => {
-                  memoizedAddTodoListToBoard(inputValue).then(
-                    setInputvalue("")
-                  );
-                }}
-              >
-                Add Todo
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+    
     </div>
   );
 });
